@@ -1,0 +1,1 @@
+#zfw-wails-ext
