@@ -6,7 +6,12 @@ import (
 	"testing"
 )
 
-func TestSaveAnGetConfig(t *testing.T) {
+type TestDTO struct {
+	Name string
+	Age  int
+}
+
+func TestSaveAnGetString(t *testing.T) {
 	a := assert.New(t)
 
 	cm := NewConfigManager()
@@ -14,18 +19,43 @@ func TestSaveAnGetConfig(t *testing.T) {
 
 	name := "test_config"
 	value := "test_config"
-	err := cm.SetConfig(name, value)
+	err := cm.SetString(name, value)
 	a.Nil(err)
 
-	hasConfig := cm.CheckConfig(name)
+	hasConfig := cm.HasConfig(name)
 	a.Nil(err)
 	a.True(hasConfig)
 
-	value2, err := cm.GetConfig(name)
+	value2, err := cm.GetString(name)
 	a.Nil(err)
 	a.Equal(value, value2)
 
 	fmt.Printf("result ==> name: %s, value: %s\n", name, value2)
+}
+
+func TestSaveAnGetObject(t *testing.T) {
+	a := assert.New(t)
+
+	cm := NewConfigManager()
+	_ = cm.CleanConfig()
+
+	name := "test_config"
+	value := []TestDTO{
+		{Name: "zhangsan", Age: 18},
+		{Name: "lisi", Age: 20},
+	}
+	err := cm.SetObject(name, value)
+	a.Nil(err)
+
+	hasConfig := cm.HasConfig(name)
+	a.Nil(err)
+	a.True(hasConfig)
+
+	value2, err := cm.GetObject(name)
+	a.Nil(err)
+	a.Equal(len(value), len(value2.([]TestDTO)))
+
+	fmt.Printf("result ==> name: %s, value: %v\n", name, value2)
 }
 
 func TestCheckedConfig(t *testing.T) {
@@ -33,6 +63,6 @@ func TestCheckedConfig(t *testing.T) {
 
 	cm := NewConfigManager()
 	_ = cm.CleanConfig()
-	hasConfig := cm.CheckConfig("xxx")
+	hasConfig := cm.HasConfig("xxx")
 	a.False(hasConfig)
 }

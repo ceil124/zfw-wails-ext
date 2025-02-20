@@ -13,7 +13,7 @@ const ConfigPath = "config.json"
 
 type ConfigManager struct {
 	path   string
-	params map[string]string
+	params map[string]any
 }
 
 func NewConfigManager() *ConfigManager {
@@ -34,12 +34,12 @@ func NewConfigManagerWithFile(path string) *ConfigManager {
 
 // 检查配置文件是否存在，如不存在则完成初始化
 func (cm *ConfigManager) createFileIfNoExists() {
-	params := map[string]string{}
+	params := map[string]any{}
 
 	// 检查文件是否存在
 	if _, err := os.Stat(cm.path); os.IsNotExist(err) {
 		// 生成空json
-		empty, _ := json.Marshal(make(map[string]string))
+		empty, _ := json.Marshal(make(map[string]any))
 		// 写入新文件
 		err = os.WriteFile(cm.path, empty, 0644)
 		if err != nil {
@@ -61,8 +61,8 @@ func (cm *ConfigManager) createFileIfNoExists() {
 	cm.params = params
 }
 
-// CheckConfig 检查配置是否存在
-func (cm *ConfigManager) CheckConfig(name string) bool {
+// HasConfig 检查配置是否存在
+func (cm *ConfigManager) HasConfig(name string) bool {
 	for k, _ := range cm.params {
 		if k == name {
 			return true
@@ -71,16 +71,34 @@ func (cm *ConfigManager) CheckConfig(name string) bool {
 	return false
 }
 
-// GetConfig 查询配置值
-func (cm *ConfigManager) GetConfig(name string) (string, error) {
+// GetString 查询配置值，返回字符串
+func (cm *ConfigManager) GetString(name string) (string, error) {
+	obj, err := cm.GetObject(name)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%v", obj), nil
+}
+
+// GetObject 查询配置值
+func (cm *ConfigManager) GetObject(name string) (any, error) {
 	if name == "" {
 		return "", errors.New("键不能为空格")
 	}
 	return cm.params[name], nil
 }
 
-// SetConfig 设置配置
-func (cm *ConfigManager) SetConfig(name string, value string) error {
+// SetString 设置配置
+func (cm *ConfigManager) SetString(name string, value string) error {
+	err := cm.SetObject(name, value)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// SetObject 设置配置
+func (cm *ConfigManager) SetObject(name string, value any) error {
 	// 将配置写入本地缓存
 	cm.params[name] = value
 
@@ -102,7 +120,7 @@ func (cm *ConfigManager) SetConfig(name string, value string) error {
 // CleanConfig 清空配置文件内容（慎用）
 func (cm *ConfigManager) CleanConfig() error {
 	// 生成空json
-	emptyJsonBytes, _ := json.Marshal(make(map[string]string))
+	emptyJsonBytes, _ := json.Marshal(make(map[string]any))
 	// 写入文件
 	err := os.WriteFile(cm.path, emptyJsonBytes, 0644)
 	if err != nil {
