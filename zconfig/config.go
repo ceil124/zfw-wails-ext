@@ -80,7 +80,7 @@ func (cm *ConfigManager) GetString(name string) (string, error) {
 	return fmt.Sprintf("%v", obj), nil
 }
 
-// GetObject 查询配置值
+// GetObject 查询配置值 对象会返回map[string]interface{}，需要自行json序列化转换
 func (cm *ConfigManager) GetObject(name string) (any, error) {
 	if name == "" {
 		return "", errors.New("键不能为空格")
