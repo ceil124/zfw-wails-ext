@@ -14,3 +14,6 @@ dist
 *.syso
 *.db
 *.log
+
+### package
+config.json
