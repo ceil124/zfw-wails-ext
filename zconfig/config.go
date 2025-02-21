@@ -1,10 +1,10 @@
 package zconfig
 
 import (
-	"e.coding.net/fangletianhua/mys/zfw-wails-ext/zlog"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/ceil124/zfw-wails-ext/zlog"
 	"log"
 	"os"
 )

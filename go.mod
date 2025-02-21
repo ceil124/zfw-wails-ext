@@ -1,4 +1,4 @@
-module e.coding.net/fangletianhua/mys/zfw-wails-ext
+module github.com/ceil124/zfw-wails-ext
 
 go 1.23
 
