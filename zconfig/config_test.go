@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+const TestConfigPath = "config.json"
+
 type TestDTO struct {
 	Name string
 	Age  int
@@ -14,7 +16,7 @@ type TestDTO struct {
 func TestSaveAnGetString(t *testing.T) {
 	a := assert.New(t)
 
-	cm := NewConfigManager()
+	cm := NewConfigManager(TestConfigPath)
 	_ = cm.CleanConfig()
 
 	name := "test_config"
@@ -36,7 +38,7 @@ func TestSaveAnGetString(t *testing.T) {
 func TestSaveAnGetObject(t *testing.T) {
 	a := assert.New(t)
 
-	cm := NewConfigManager()
+	cm := NewConfigManager(TestConfigPath)
 	_ = cm.CleanConfig()
 
 	name := "test_config"
@@ -61,7 +63,7 @@ func TestSaveAnGetObject(t *testing.T) {
 func TestCheckedConfig(t *testing.T) {
 	a := assert.New(t)
 
-	cm := NewConfigManager()
+	cm := NewConfigManager(TestConfigPath)
 	_ = cm.CleanConfig()
 	hasConfig := cm.HasConfig("xxx")
 	a.False(hasConfig)

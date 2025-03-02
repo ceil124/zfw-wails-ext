@@ -9,22 +9,12 @@ import (
 	"os"
 )
 
-const ConfigPath = "config.json"
-
 type ConfigManager struct {
 	path   string
 	params map[string]any
 }
 
-func NewConfigManager() *ConfigManager {
-	cm := ConfigManager{
-		path: ConfigPath,
-	}
-	cm.createFileIfNoExists()
-	return &cm
-}
-
-func NewConfigManagerWithFile(path string) *ConfigManager {
+func NewConfigManager(path string) *ConfigManager {
 	cm := ConfigManager{
 		path: path,
 	}
