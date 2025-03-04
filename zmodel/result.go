@@ -40,3 +40,11 @@ func Failure(msg string) ResultVO {
 		Msg:  msg,
 	}
 }
+
+func FailureWithData(msg string, data string) ResultVO {
+	return ResultVO{
+		Code: 500,
+		Msg:  msg,
+		Data: data,
+	}
+}
