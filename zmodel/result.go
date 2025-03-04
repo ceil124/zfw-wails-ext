@@ -23,11 +23,11 @@ func Success(msg string) ResultVO {
 	return SuccessWithData(msg, "")
 }
 
-func SuccessWithEmptyList(msg string, data string) ResultVO {
+func SuccessWithEmptyList(msg string) ResultVO {
 	return SuccessWithData(msg, "[]")
 }
 
-func SuccessWithEmptyObject(msg string, data string) ResultVO {
+func SuccessWithEmptyObject(msg string) ResultVO {
 	return SuccessWithData(msg, "{}")
 }
 
