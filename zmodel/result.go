@@ -11,13 +11,6 @@ type ResultVO struct {
 	Data string `json:"data"`
 }
 
-func Success(msg string) ResultVO {
-	return ResultVO{
-		Code: 200,
-		Msg:  msg,
-	}
-}
-
 func SuccessWithData(msg string, data string) ResultVO {
 	return ResultVO{
 		Code: 200,
@@ -26,19 +19,16 @@ func SuccessWithData(msg string, data string) ResultVO {
 	}
 }
 
-func SuccessOk() ResultVO {
-	return Success(OK)
+func Success(msg string) ResultVO {
+	return SuccessWithData(msg, "")
 }
 
-func SuccessOkWithData(data string) ResultVO {
-	return SuccessWithData(OK, data)
+func SuccessWithEmptyList(msg string, data string) ResultVO {
+	return SuccessWithData(msg, "[]")
 }
 
-func Failure(msg string) ResultVO {
-	return ResultVO{
-		Code: 500,
-		Msg:  msg,
-	}
+func SuccessWithEmptyObject(msg string, data string) ResultVO {
+	return SuccessWithData(msg, "{}")
 }
 
 func FailureWithData(msg string, data string) ResultVO {
@@ -47,4 +37,16 @@ func FailureWithData(msg string, data string) ResultVO {
 		Msg:  msg,
 		Data: data,
 	}
+}
+
+func Failure(msg string) ResultVO {
+	return FailureWithData(msg, "")
+}
+
+func FailureWithEmptyList(msg string) ResultVO {
+	return FailureWithData(msg, "[]")
+}
+
+func FailureWithEmptyObject(msg string) ResultVO {
+	return FailureWithData(msg, "{}")
 }
